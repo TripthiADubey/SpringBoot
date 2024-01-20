@@ -53,4 +53,94 @@ public class Department {
 		this.id = id;
 	}
 }
+Main program:
+package com.example.Lab2;
+
+import java.util.Scanner;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+@SpringBootApplication
+public class Lab2Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Lab2Application.class, args);
+		
+		Scanner sc = new Scanner(System.in);
+		
+		ApplicationContext ac = new ClassPathXmlApplicationContext("testBoot.xml");
+		
+		Department d = (Department) ac.getBean("department");
+		College c = (College) d.getCollege_instance();
+		while(true) {
+			System.out.println("1.Insert\n2.Display\n3.Exit");
+			System.out.println("Enter your choice");
+			int choice = sc.nextInt();
+			
+			switch(choice) {
+			case 1:
+				System.out.println("Insert Dept details: ");
+				System.out.println(" - NAME: ");
+				d.setDept_name(sc.next());
+				System.out.println(" - ID: ");
+				d.setDept_id(sc.nextInt());
+				System.out.println(" - Description: ");
+				d.setDept_description(sc.next());
+				System.out.println("Insert College Details: ");
+				System.out.print("- Name: ");
+				c.college_name = sc.next();
+				
+				System.out.print("- Address: ");
+				c.college_address = sc.next();
+				break;
+				
+			case 2:
+				System.out.println("\nDepartment Details");
+				System.out.println("- Name: "+d.getDept_name());
+				System.out.println("- ID: "+d.getDept_id());
+				System.out.println("- Description: "+d.getDept_description());
+				
+				//College c = d.getCollege_instance();
+				System.out.println("\nCollege Details");
+				System.out.println("- Name: "+c.getCollege_name());
+				System.out.println("- Address: "+c.getCollege_address());
+				break;
+				
+			case 3:
+				System.out.println("\nExiting..!!!");
+				System.exit(0);
+				
+			default:
+				System.out.println("Invalid Choice");
+				
+			}
+		}
+	}
+
+}
+
+Bean file: 
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="department" class="com.example.Lab2.Department" scope="prototype">
+		<constructor-arg name="college_instance" ref="college"></constructor-arg>
+		
+	</bean>
+	
+	<bean id="college" class="com.example.Lab2.College" scope="prototype">
+		<!--property name="college_name" value="RVCE"></property>
+		<property name="college_address" value="Mysure Road"></property-->
+		
+	</bean>
+	
+
+</beans>
 

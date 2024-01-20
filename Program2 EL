@@ -1,0 +1,331 @@
+
+//package com.example.demo;
+
+//
+
+//import java.util.Scanner;
+
+//
+
+//import org.springframework.context.ApplicationContext;
+
+//import org.springframework.boot.SpringApplication;
+
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+//
+
+//@SpringBootApplication
+
+//public class DemoApplication {
+
+//
+
+//	public static void main(String[] args) {
+
+//		Scanner sc = new Scanner(System.in);
+
+//
+
+//		SpringApplication.run(DemoApplication.class, args);
+
+//		ApplicationContext ac = new ClassPathXmlApplicationContext("testBean.xml");
+
+//    	Customer c = (Customer) ac.getBean("customer");
+
+//    	Ticket t = (Ticket) c.getTick();
+
+//    	while(true) {
+
+//    		System.out.println("1. insert the details\n 2. Display details \n"
+
+//    				+ "3. exit");
+
+//    		System.out.println("enter the choice");
+
+//    		int a = sc.nextInt();
+
+//    		switch(a) {
+
+//	    		case 1: 
+
+//	    			System.out.println("enter the customer name");
+
+//					c.setName(sc.next());
+
+//					System.out.println("enter the customer address");
+
+//					c.setAddress(sc.next());
+
+//					System.out.println("enter the ticket number");
+
+//					t.setTicno(sc.nextInt());
+
+//					System.out.println("enter the ticket seat no");
+
+//					t.setSeatno(sc.nextInt());
+
+//					System.out.println("enter the ticket price");
+
+//					t.setPrice(sc.nextInt());
+
+//					System.out.println("enter the ticket Type - economic/gold/platinum");
+
+//					t.setTicktype(sc.next());
+
+//					c.setTick(t);
+
+//					System.out.println("thanks for input");    		
+
+//					break;
+
+//	    		case 2: 
+
+//	    			System.out.println("Customer Details:");
+
+//	    			System.out.println("Name:"+c.getName()+" "+" Address:"+c.getAddress());
+
+//	    			System.out.println("Ticket Details");
+
+//	    			t = c.getTick();
+
+//	    			System.out.println("Ticket No: "+t.getTicno());
+
+//	    			System.out.println("Ticket Type: "+t.getTicktype());
+
+//	    			System.out.println("Ticket Seat No: "+t.getSeatno());
+
+//	    			System.out.println("Ticket Price: "+t.getPrice());
+
+//	    			break;
+
+//	    		case 3: 
+
+//	    			System.exit(0); 			
+
+//    		}    		
+
+//    	}    	
+
+//    }
+
+//}
+
+//
+
+//
+
+
+
+
+
+
+
+
+
+package com.example.demo;
+
+
+
+import java.util.ArrayList;
+
+import java.util.List;
+
+import java.util.Scanner;
+
+
+
+import org.springframework.context.ApplicationContext;
+
+import org.springframework.boot.SpringApplication;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+@SpringBootApplication
+
+public class DemoApplication {
+
+
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        List<Customer> customerList = new ArrayList<>();
+
+
+
+        SpringApplication.run(DemoApplication.class, args);
+
+        ApplicationContext ac = new ClassPathXmlApplicationContext("testBean.xml");
+
+
+
+        while (true) {
+
+            System.out.println("1. Insert customer details\n2. Display details\n3. Exit");
+
+            System.out.println("Enter the choice");
+
+            int choice = sc.nextInt();
+
+
+
+            switch (choice) {
+
+                case 1:
+
+                    Customer newCustomer = (Customer) ac.getBean("customer");
+
+                    Ticket newTicket = (Ticket) newCustomer.getTick();
+
+
+
+                    System.out.println("Enter the customer name");
+
+                    newCustomer.setName(sc.next());
+
+                    System.out.println("Enter the customer address");
+
+                    newCustomer.setAddress(sc.next());
+
+                    System.out.println("Enter the ticket number");
+
+                    newTicket.setTicno(sc.nextInt());
+
+                    System.out.println("Enter the ticket seat no");
+
+                    newTicket.setSeatno(sc.nextInt());
+
+                    System.out.println("Enter the ticket price");
+
+                    newTicket.setPrice(sc.nextInt());
+
+                    System.out.println("Enter the ticket Type - economic/gold/platinum");
+
+                    newTicket.setTicktype(sc.next());
+
+                    newCustomer.setTick(newTicket);
+
+
+
+                    customerList.add(newCustomer);
+
+
+
+                    System.out.println("Thanks for input");
+
+                    break;
+
+
+
+                case 2:
+
+                    System.out.println("Customer Details:");
+
+
+
+                    for (Customer customer : customerList) {
+
+                        System.out.println("Name: " + customer.getName() + " Address: " + customer.getAddress());
+
+                        System.out.println("Ticket Details");
+
+                        Ticket ticket = customer.getTick();
+
+                        System.out.println("Ticket No: " + ticket.getTicno());
+
+                        System.out.println("Ticket Type: " + ticket.getTicktype());
+
+                        System.out.println("Ticket Seat No: " + ticket.getSeatno());
+
+                        System.out.println("Ticket Price: " + ticket.getPrice());
+
+                        System.out.println("------------------------------");
+
+                    }
+
+                    break;
+
+
+
+                case 3:
+
+                    System.exit(0);
+
+
+
+                default:
+
+                    System.out.println("Invalid choice. Please enter a valid option.");
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+    <!-- Bean definition for Customer -->
+
+    <bean id="customer" class="com.example.demo.Customer" scope="prototype">
+
+        <property name="tick" ref="ticket" />
+
+    </bean>
+
+
+
+    <!-- Bean definition for Ticket -->
+
+    <bean id="ticket" class="com.example.demo.Ticket" scope="prototype">
+
+        <property name="ticno" value="0" />
+
+        <property name="seatno" value="0" />
+
+        <property name="price" value="0" />
+
+        <property name="ticktype" value="economic" />
+
+    </bean>
+
+
+
+</beans>
+
+
+
+
+
+
+
+
+

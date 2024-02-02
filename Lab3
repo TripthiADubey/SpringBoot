@@ -1,0 +1,102 @@
+Book.java:
+
+package com.example.Lab3;
+
+import jakarta.annotation.Nonnull;
+
+public class Book {
+	private Long id;
+
+	private String author, title, publicationYear;
+	
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getPublicationYear() {
+		return publicationYear;
+	}
+
+	public void setPublicationYear(String publicationYear) {
+		this.publicationYear = publicationYear;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+}
+
+
+BookController.java:
+
+package com.example.Lab3;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/books")
+
+public class BookController {
+
+	private final List<Book> books= new ArrayList<Book>();
+	
+	@GetMapping
+	public List<Book>getAllBooks(){
+		return books;
+	}
+	
+	@PostMapping
+	public Book addBook(@RequestBody Book book) {
+		books.add(book);
+		return book;
+	}
+	
+}
+
+
+
+Lab3.java:
+
+package com.example.Lab3;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Lab3Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Lab3Application.class, args);
+	}
+
+}
+
+
+Open postman an type the following url:
+
+POST: http://localhost:8080/api/books -> body -> raw -> type the json file
+GET: http://localhost:8080/api/books
